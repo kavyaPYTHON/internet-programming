@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Issue Book{% endblock %}
+{% block content %}<div class="row justify-content-center"><div class="col-md-7"><div class="card p-4"><h1 class="h3">Issue a book</h1><p class="text-secondary">Standard borrowing period: 14 days. Maximum 5 active loans per student.</p>
+<form method="post"><label class="form-label">Student</label><select class="form-select mb-3" name="user_id" required><option value="">Choose student</option>{% for s in students %}<option value="{{ s.id }}">{{ s.name }} — {{ s.email }}</option>{% endfor %}</select>
+<label class="form-label">Available book</label><select class="form-select mb-4" name="book_id" required><option value="">Choose book</option>{% for b in books %}<option value="{{ b.id }}">{{ b.title }} ({{ b.available_copies }} available)</option>{% endfor %}</select><button class="btn btn-primary">Issue book</button> <a class="btn btn-outline-secondary" href="{{ url_for('admin_dashboard') }}">Cancel</a></form>
+</div></div></div>{% endblock %}

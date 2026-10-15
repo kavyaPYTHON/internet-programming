@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block title %}My Library{% endblock %}
+{% block content %}<div class="d-flex flex-wrap justify-content-between align-items-center mb-4"><div><h1 class="h2">Hello, {{ user.name }} 👋</h1><p class="text-secondary mb-0">Your borrowing activity and learning materials.</p></div><a class="btn btn-primary" href="{{ url_for('index') }}">Browse books</a></div>
+<div class="row g-3 mb-4"><div class="col-md-4"><div class="card p-3"><div class="text-secondary">Active loans</div><div class="stat">{{ borrowings|selectattr('status','equalto','issued')|list|length }}</div></div></div><div class="col-md-4"><div class="card p-3"><div class="text-secondary">Recorded fines</div><div class="stat">₹{{ '%.2f'|format(borrowings|sum(attribute='fine')) }}</div></div></div><div class="col-md-4"><div class="card p-3"><div class="text-secondary">Study materials</div><div class="stat">{{ materials|length }}</div></div></div></div>
+<div class="card p-3 p-md-4 mb-4"><h2 class="h5">My borrowing history</h2><div class="table-responsive"><table class="table"><thead><tr><th>Book</th><th>Issue date</th><th>Due date</th><th>Return date</th><th>Status</th><th>Fine</th></tr></thead><tbody>
+{% for b in borrowings %}<tr><td>{{ b.title }}<div class="small text-secondary">{{ b.author }}</div></td><td>{{ b.issue_date }}</td><td>{{ b.due_date }}</td><td>{{ b.return_date or '—' }}</td><td><span class="badge {{ 'bg-success' if b.status=='returned' else 'bg-warning text-dark' }}">{{ b.status }}</span></td><td>₹{{ '%.2f'|format(b.fine) }}</td></tr>
+{% else %}<tr><td colspan="6" class="text-secondary">No borrowing history yet.</td></tr>{% endfor %}
+</tbody></table></div><p class="small text-secondary mb-0">Overdue fine: ₹5 per day, finalized when the librarian records the return.</p></div>
+<div class="card p-3 p-md-4"><h2 class="h5">Study materials</h2>
+<form method="get" class="row g-2 mb-3" onsubmit="return false;"><div class="col-md-4"><input class="form-control" id="materialFilter" placeholder="Filter by title, year, semester…"></div></form>
+<div class="table-responsive"><table class="table" id="materialsTable"><thead><tr><th>Material</th><th>Subject</th><th>Year</th><th>Semester</th><th></th></tr></thead><tbody>
+{% for m in materials %}<tr><td>{{ m.title }}</td><td>{{ m.subject or '—' }}</td><td>{{ m.year }}</td><td>{{ m.semester }}</td><td><a class="btn btn-sm btn-outline-primary" href="{{ url_for('download_material', material_id=m.id) }}">Download</a></td></tr>
+{% else %}<tr><td colspan="5">No materials uploaded yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+<script>document.getElementById('materialFilter').addEventListener('input',function(){let q=this.value.toLowerCase();document.querySelectorAll('#materialsTable tbody tr').forEach(r=>r.hidden=!r.innerText.toLowerCase().includes(q));});</script>
+{% endblock %}

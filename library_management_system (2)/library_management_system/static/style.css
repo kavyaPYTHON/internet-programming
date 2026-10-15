@@ -1,0 +1,14 @@
+:root { --navy:#152747; --blue:#315bd6; --pale:#f3f6fb; --ink:#202b3c; }
+body { background:var(--pale); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+.navbar { background:var(--navy); }
+.navbar-brand,.navbar .nav-link { color:white!important; }
+.hero { background:linear-gradient(120deg,#152747,#315bd6); color:white; border-radius:22px; padding:42px; }
+.hero h1 { font-weight:800; }
+.card { border:0; border-radius:16px; box-shadow:0 6px 22px rgba(24,43,77,.07); }
+.btn-primary { background:var(--blue); border-color:var(--blue); }
+.table { vertical-align:middle; }
+.stat { font-size:2rem; font-weight:800; color:var(--blue); }
+footer { color:#6b778c; }
+.form-control,.form-select { padding:.7rem; }
+.badge-soft { background:#e5ecff; color:#2348b6; }
+.book-title { font-weight:700; }
